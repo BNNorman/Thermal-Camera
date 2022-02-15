@@ -53,4 +53,4 @@ python3 tk_cam.py
 ```
 or create a systemd launcher because the program is likely to stop running. Systemd will restart it.
 
-
+I had to add code to swap the R&B channels for the screen display so that hot bodies wer red. The original code didn't want to do that even when I added the rainbow colormap.
