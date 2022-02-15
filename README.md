@@ -18,16 +18,17 @@ these have the availablility of hens teeth at the moment. Mine has 4Gb of ram bu
 
 I used a Waveshare 5" CSI touch screen (Try Pimoroni or PiHut)- this seems to self configure on Buster but not on Bullseye - you may need to add some entries to /boot/config.txt
 
-This monitor is very well made - if you look at the picture of the assembled camera you can see it bolts direct to the Pi. The brass standoffs and screws are provided.
-
-Carrying the camera around generally is problematic if your fingers come into contact with the screen edges because of its touch sensitivity. So, I made some ractangular handles to keep my fingers away from the display.
-
 ```
 # Enable DRM VC4 V3D driver
 dtoverlay=vc4-fkms-v3d,rpi-ft5406
 max_framebuffers=2
 
 ```
+
+This monitor is very well made - if you look at the picture of the assembled camera you can see it bolts direct to the Pi. The brass standoffs and screws are provided.
+
+Carrying the camera around generally is problematic if your fingers come into contact with the screen edges because of its touch sensitivity. So, I made some ractangular handles to keep my fingers away from the display.
+
 
 ## Thermal Imaging Camera
 
