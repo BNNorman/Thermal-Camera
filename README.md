@@ -16,7 +16,7 @@ these have the availablility of hens teeth at the moment. Mine has 4Gb of ram bu
 
 ## Touch screen
 
-I used a Waveshare 5" CSI touch screen (Try Pimoroni or PiHut)- this seems to self configure on Buster but not on Bullseye - you may need to add some entries to /boot/config.txt
+I used a Waveshare 5" CSI touch screen (Try Pimoroni or PiHut)- this seems to self configure on Buster but not on Bullseye - you may need to add some entries to /boot/config.txt as follows:-
 
 ```
 # Enable DRM VC4 V3D driver
@@ -45,7 +45,52 @@ The mounting bracket was designed in openSCAD and 3D printed. It allows the came
 
 # Software
 
-Install libraries in accordance with https://tomshaffner.github.io/PiThermalCam/
+## I2C configuration
+
+You need to enable I2C and edit the /boot/config.txt to increase the baudrate to 400000
+
+Change this line
+```
+dtparam=i2c_arm=on
+```
+
+to
+```
+dtparam=i2c_arm=on,i2c_arm_baudrate=400000
+```
+
+The install the libraries
+```
+sudo apt-get install libatlas-base-dev python-smbus i2ctools 
+```
+
+Attach the thermal camera as per https://tomshaffner.github.io/PiThermalCam/images/mlx90640_rpi_wiring_diagram_w_table.png
+
+After rebooting check the cvamera can be seen
+
+```
+i2cdetect -y 1
+```
+
+You should see the device at address 0x33
+
+
+
+If you install libraries in accordance with https://tomshaffner.github.io/PiThermalCam/ on bullseye you may have a problem when you run the software - after hours of waiting for installation to complete the software threw lots of errors on my Bullseye Rpi.
+
+
+Instead I installed the required libraries manually first but note. If you change opencv-python to opencv-contrib-python it will take a very long time. You might want contrib for other things.
+
+```
+pip install -r requirements.txt
+```
+
+then pithermalcam
+
+```
+pip install pithermalcam
+```
+
 
 Download tk_cam.py and run it with 
 ```
