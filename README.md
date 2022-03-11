@@ -59,9 +59,12 @@ to
 dtparam=i2c_arm=on,i2c_arm_baudrate=400000
 ```
 
-The install the libraries
+You should reboot for changes to take effect
+
+## Install the libraries
+
 ```
-sudo apt-get install libatlas-base-dev python-smbus i2ctools 
+sudo apt-get install libatlas-base-dev python3-smbus i2c-tools 
 ```
 
 Attach the thermal camera as per https://tomshaffner.github.io/PiThermalCam/images/mlx90640_rpi_wiring_diagram_w_table.png
@@ -74,7 +77,23 @@ i2cdetect -y 1
 
 You should see the device at address 0x33
 
+## Swap file
 
+Compiling opencv-contrib-python can be a long process and may fail if the swap file (default 100M) becomes full.
+
+```
+sudo dphys-swapfile swapoff
+sudo nano /etc/dphys-swapfile
+
+change this CONF_SWAPSIZE=100 - it depends how much memory you have but I set this to 1024 for my 4Gb Pi4.
+
+```
+Recreate the swap file and turn it on then reboot the pi
+
+```
+sudo dphys-swapfile setup - oddly these two commands open an editor window - just quit
+sudo dphys-swapfile swapon
+```
 
 If you install libraries in accordance with https://tomshaffner.github.io/PiThermalCam/ on bullseye you may have a problem when you run the software - after hours of waiting for installation to complete the software threw lots of errors on my Bullseye Rpi.
 
