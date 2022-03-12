@@ -12,7 +12,9 @@ I found the following https://tomshaffner.github.io/PiThermalCam/, programmed my
 
 ## Raspberry Pi 4	
 
-these have the availablility of hens teeth at the moment. Mine has 4Gb of ram but I think 2Gb would be fine. You might get away with using a Pi 3.
+I'm using one of these with Bullseye. They have the availablility of hens teeth at the moment. Mine has 4Gb of ram but I think 2Gb would be fine. You might get away with using a Pi 3.
+
+A fresh install of Bullseye, using the Raspberry Pi Imager 1.7.1 on 12th March 2022 has python 3.9 installed. 
 
 ## Touch screen
 
@@ -49,9 +51,9 @@ The mounting bracket was designed in openSCAD and 3D printed. It allows the came
 
 You need to enable I2C and edit the /boot/config.txt to increase the baudrate to 400000
 
-Change this line
+Use sudo raspi-config to enable I2C or just change this line:-
 ```
-dtparam=i2c_arm=on
+#dtparam=i2c_arm=on
 ```
 
 to
@@ -61,15 +63,15 @@ dtparam=i2c_arm=on,i2c_arm_baudrate=400000
 
 You should reboot for changes to take effect
 
-## Install the libraries
+## Install the I2C libraries
 
 ```
 sudo apt-get install libatlas-base-dev python3-smbus i2c-tools 
 ```
 
-Attach the thermal camera as per https://tomshaffner.github.io/PiThermalCam/images/mlx90640_rpi_wiring_diagram_w_table.png
+The attach the thermal camera as per https://tomshaffner.github.io/PiThermalCam/images/mlx90640_rpi_wiring_diagram_w_table.png
 
-After rebooting check the cvamera can be seen
+After rebooting check the camera can be seen:-
 
 ```
 i2cdetect -y 1
@@ -79,7 +81,7 @@ You should see the device at address 0x33
 
 ## Swap file
 
-Compiling opencv-contrib-python can be a long process and may fail if the swap file (default 100M) becomes full.
+Compiling opencv-contrib-python can be a long process and may fail if the swap file (default 100M) becomes full If you don't have enough ram (Mine has 4Gb) you can increase the system swapfile:-
 
 ```
 sudo dphys-swapfile swapoff
@@ -98,23 +100,27 @@ sudo dphys-swapfile swapon
 If you install libraries in accordance with https://tomshaffner.github.io/PiThermalCam/ on bullseye you may have a problem when you run the software - after hours of waiting for installation to complete the software threw lots of errors on my Bullseye Rpi.
 
 
-Instead I installed the required libraries manually first but note. If you change opencv-python to opencv-contrib-python it will take a very long time. You might want contrib for other things.
+Instead I installed the required libraries manually first but note. If you change opencv-python to opencv-contrib-python it will take a very long time. You might want opencv-contrib-python for other things but it takes ages to install.
+
+I'm using python -m because it ensures stuff gets installed in the correct place for the default version of python. Note: numpy needs to be V1.22.1 or later for python 3.9 on.
 
 ```
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-then pithermalcam
+then install pithermalcam
 
 ```
-pip install pithermalcam
+python -m pip install pithermalcam
 ```
 
 
 Download tk_cam.py and run it with 
 ```
-python3 tk_cam.py 
+python tk_cam.py 
 ```
-or create a systemd launcher because the program is likely to stop running. Systemd will restart it.
 
-I had to add code to swap the R&B channels for the screen display so that hot bodies wer red. The original code didn't want to do that even when I added the rainbow colormap.
+If you want the program to restart automatically create a systemd launcher because the program is likely to stop running if you touch the edges of the touch screen. Systemd will restart it.
+
+
+The default makes blue the HOT colour. I had to add code to swap the R&B channels for the screen display so that hot bodies wer red. The original code didn't want to do that even when I tried the rainbow colormap.
