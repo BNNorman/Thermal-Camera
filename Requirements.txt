@@ -6,4 +6,4 @@ Adafruit-Blinka
 adafruit-circuitpython-mlx90640
 flask
 opencv-python
-cmapy --no-dep pip3
+cmapy --no-deps pip3
