@@ -1,4 +1,4 @@
-numpy>=1.16.5
+numpy>=1.22.1
 matplotlib
 scipy>=1.6.0
 RPI.GPIO
@@ -6,4 +6,4 @@ Adafruit-Blinka
 adafruit-circuitpython-mlx90640
 flask
 opencv-python
-cmapy --no-deps pip3
+cmapy --no-dep pip3
